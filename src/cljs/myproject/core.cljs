@@ -3,31 +3,53 @@
               [reagent.session :as session]
               [secretary.core :as secretary :include-macros true]
               [accountant.core :as accountant]
-              [reagent.core :as r]
               ))
 
 ;; -------------------------
 ;; Views
-(defn timer-component []
-  (let [seconds-elapsed (r/atom 3)]
+
+(def total-seconds 120)
+
+(defn reset-component [seconds]
+  [:input {:type "button" :value "Reset"
+           :on-click #(reset! seconds total-seconds)}])
+
+(defn toggle-component [is-paused?]
+  (let [toggle-component-value #(if is-paused?.state "Start" "Pause")
+        button-value (atom (toggle-component-value))]
     (fn []
-      (js/setTimeout
-       (fn []
-         (js/console.log seconds-elapsed)
-         (if (== seconds-elapsed.state 0)
-           (reset! seconds-elapsed 3)
-           (swap! seconds-elapsed dec)))
-       1000)
+      [:input {:type "button"
+               :value @button-value
+               :on-click (fn[]
+                           (reset! is-paused? (not is-paused?.state))
+                           (reset! button-value (toggle-component-value))
+                           )}])))
+
+(defn timer-component []
+  (let [seconds-left (atom total-seconds)
+        is-paused? (atom true)]
+    (js/setInterval
+     (fn []
+       (if (== seconds-left.state 0)
+         (reset! seconds-left total-seconds)
+         (if-not is-paused?.state
+           (swap! seconds-left dec))))
+     1000)
+    (fn []
       [:div
-       @seconds-elapsed])))
+       [:div @seconds-left " seconds"]
+       [reset-component seconds-left]
+       [toggle-component is-paused?]
+       ]
+      )))
 
 (defn home-page []
   [:div [:h2 "HACKS"]
-   [:div [:a {:href "/timer"} "计时器"]]
+   [:div [:a {:href "/timer"} "Timer"]]
    ])
 
 (defn timer-page []
-  [:div [:h2 "计时器"]
+  [:div [:h2 "U8K Timer"]
    [timer-component]
    ])
 
