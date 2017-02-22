@@ -7,8 +7,10 @@
 
 ;; -------------------------
 ;; Views
+(def total-seconds 10)
+(def warning-threshold 5)
 
-(def total-seconds 120)
+(def time-color (atom "#000"))
 
 (defn reset-component [seconds]
   [:input {:type "button" :value "Reset"
@@ -27,17 +29,28 @@
 
 (defn timer-component []
   (let [seconds-left (atom total-seconds)
-        is-paused? (atom true)]
+        is-paused? (atom false)]
     (js/setInterval
      (fn []
-       (if (== seconds-left.state 0)
-         (reset! seconds-left total-seconds)
-         (if-not is-paused?.state
-           (swap! seconds-left dec))))
+       (if-not is-paused?.state
+         ((swap! seconds-left dec)
+          (if (== seconds-left.state warning-threshold)
+            (
+             (reset! time-color "#f34")
+             ;; (beep)
+             )
+            )
+          (if (== seconds-left.state -1)
+            (;; (beep-ending)
+             (reset! seconds-left total-seconds)
+             (reset! time-color "#000")))
+          )))
      1000)
     (fn []
       [:div
-       [:div @seconds-left " seconds"]
+       [:div
+        {:style {:color @time-color}}
+        @seconds-left]
        [reset-component seconds-left]
        [toggle-component is-paused?]
        ]
