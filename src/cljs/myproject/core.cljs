@@ -894,7 +894,7 @@ ZSJVzJ3S6V3ZWy9KhJ8BHVn6a5kFSZfV3Z"))
 (def warning-time-color "#f34")
 (def time-color (atom "#000"))
 (def seconds-left (atom total-seconds))
-(def is-paused? (atom false))
+(def is-paused? (atom true))
 
 (defn play [base64]
   (.play base64))
@@ -904,11 +904,11 @@ ZSJVzJ3S6V3ZWy9KhJ8BHVn6a5kFSZfV3Z"))
   (reset! time-color normal-timer-color))
 
 (defn reset-component []
-  [:input {:type "button" :value "Reset"
+  [:input {:type "button" :value "重置"
            :on-click #(reset)}])
 
 (defn toggle-component []
-  (let [toggle-component-value #(if is-paused?.state "Start" "Pause")
+  (let [toggle-component-value #(if is-paused?.state "开始" "暂停")
         button-value (atom (toggle-component-value))]
     (fn []
       [:input {:type "button"
@@ -935,10 +935,12 @@ ZSJVzJ3S6V3ZWy9KhJ8BHVn6a5kFSZfV3Z"))
   (fn []
     [:div
      [:div
-      {:style {:color @time-color}}
+      {:style {:color @time-color :font-size "30vh" :line-height 2
+               }}
       @seconds-left]
-     [reset-component]
-     [toggle-component]]))
+     [:div
+      [reset-component]
+      [toggle-component]]]))
 
 (defn home-page []
   [:div [:h2 "HACKS"]
@@ -946,7 +948,8 @@ ZSJVzJ3S6V3ZWy9KhJ8BHVn6a5kFSZfV3Z"))
    ])
 
 (defn timer-page []
-  [:div [:h2 "U8K Timer"]
+  [:div {:style {:text-align "center"}}
+   [:h2 "U8K Timer"]
    [timer-component]
    ])
 
