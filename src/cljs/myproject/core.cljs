@@ -904,7 +904,9 @@ ZSJVzJ3S6V3ZWy9KhJ8BHVn6a5kFSZfV3Z"))
   (reset! time-color normal-timer-color))
 
 (defn reset-component []
-  [:input {:type "button" :value "重置"
+  [:input {:type "button"
+           :value "重置"
+           :id "reset-button"
            :on-click #(reset)}])
 
 (defn toggle-component []
@@ -913,6 +915,7 @@ ZSJVzJ3S6V3ZWy9KhJ8BHVn6a5kFSZfV3Z"))
     (fn []
       [:input {:type "button"
                :value @button-value
+               :id "toggle-button"
                :on-click (fn[]
                            (reset! is-paused? (not is-paused?.state))
                            (reset! button-value (toggle-component-value))
@@ -947,11 +950,18 @@ ZSJVzJ3S6V3ZWy9KhJ8BHVn6a5kFSZfV3Z"))
    [:div [:a {:href "/timer"} "Timer"]]
    ])
 
+(defn timer-page-key-down-listner [event]
+  (if (= (.-which event) 34)
+    (.click (.getElementById js/document "reset-button")))
+  (if (= (.-which event) 33)
+    (.click (.getElementById js/document "toggle-button")))
+  )
+
 (defn timer-page []
   [:div {:style {:text-align "center"}}
    [:h2 "U8K Timer"]
    [timer-component]
-   ])
+   (.addEventListener js/window "keydown" timer-page-key-down-listner)])
 
 (defn current-page []
   [:div [(session/get :current-page)]])

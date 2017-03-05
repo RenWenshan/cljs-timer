@@ -1,0 +1,11 @@
+#+TITLE: cljs hacks
+
+* U8K Timer
+Continuous countdown timer for Werewolves of Miller's Hollow.
+
+To be used with Logitech R400 wireless presenter.
+
+| key | function    |
+|-----+-------------|
+| <-  | pause/start |
+| ->  | reset       |
