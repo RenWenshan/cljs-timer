@@ -1,6 +1,6 @@
 (ns myproject.audio)
 
-(def warning-beep-base64
+(defonce warning-beep-base64
   (js/Audio.
    "data:audio/wav;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU3LjU2LjEwMQAAAAAAAAAAAAAA//tUwAAAAAAAAAAA
 AAAAAAAAAAAAWGluZwAAAA8AAAByAABX2AAHCQsQExcZHiAiJCYoKi4wMzU3OjxAQkVHSUtNUVNV
@@ -389,7 +389,7 @@ djJudnnasdrrYlbUK7kt///+Ye26MEbx3SNsjBcgYJJ48ch9sqCXzXkwfmGsz9r8Nh3GjHZszUit
 VAp0NkMdi5XomrFhVznctiKwodTz/h08QpxSz84a0iRMm4ebTYvpwfIrD7M2///+DlpZARdRdrbV
 TgLBU9xY1Jt/As"))
 
-(def ending-beep-base64
+(defonce ending-beep-base64
   (js/Audio.
    "data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU3LjU2LjEwMQAAAAAAAAAAAAAA//tUwAAAAAAAAAAA
 AAAAAAAAAAAAWGluZwAAAA8AAACTAABwIAADBAUGCAkNERcbHiAjJSgrLDIzNzg8PUFCRUhLTVFS

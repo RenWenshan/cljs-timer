@@ -8,14 +8,14 @@
 
 ;; -------------------------
 ;; Views
-(def total-seconds 90)
-(def warning-threshold 30)
-(def ending-threshold 5)
-(def normal-timer-color "#000")
-(def warning-time-color "#f34")
-(def time-color (atom "#000"))
-(def seconds-left (atom total-seconds))
-(def is-paused? (atom true))
+(defonce total-seconds 90)
+(defonce warning-threshold 30)
+(defonce ending-threshold 5)
+(defonce normal-timer-color "#000")
+(defonce warning-time-color "#f34")
+(defonce time-color (atom "#000"))
+(defonce seconds-left (atom total-seconds))
+(defonce is-paused? (atom true))
 
 (defn play [base64]
   (.play base64))
